@@ -1,0 +1,40 @@
+plugins {
+    //引入两个开发插件
+    id 'groovy'
+    id 'maven'
+}
+
+dependencies {
+    implementation gradleApi() //gradle sdk
+    implementation localGroovy() //groovy sdk
+    //需要依赖Android插件，得到文件名/apk路径等
+    implementation "com.android.tools.build:gradle:4.1.2"
+
+    //ASM相关依赖
+    implementation 'org.ow2.asm:asm:7.1'
+    implementation 'org.ow2.asm:asm-util:7.0'
+    implementation 'org.ow2.asm:asm-commons:7.1'
+}
+
+
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
+
+uploadArchives {
+    repositories.mavenDeployer {
+        //本地仓库路径，以放到项目根目录下的 repo 的文件夹为例
+        repository(url: uri('../repo'))
+
+        //groupId ，自行定义，组织名或公司名
+        pom.groupId = 'com.igg'
+
+        //artifactId，自行定义，项目名或模块名
+        pom.artifactId = 'statistics.android'
+
+        //插件版本号
+        pom.version = '1.0.2'
+    }
+}

@@ -1,14 +1,14 @@
 plugins {
     //引入两个开发插件
     id 'groovy'
-    id 'maven'
+    id 'maven-publish'
 }
 
 dependencies {
     implementation gradleApi() //gradle sdk
     implementation localGroovy() //groovy sdk
     //需要依赖Android插件，得到文件名/apk路径等
-    implementation "com.android.tools.build:gradle:4.1.2"
+    implementation "com.android.tools.build:gradle:7.2.2"
 
     //ASM相关依赖
     implementation 'org.ow2.asm:asm:7.1'
@@ -23,18 +23,37 @@ repositories {
 }
 
 
-uploadArchives {
-    repositories.mavenDeployer {
-        //本地仓库路径，以放到项目根目录下的 repo 的文件夹为例
-        repository(url: uri('../repo'))
 
-        //groupId ，自行定义，组织名或公司名
-        pom.groupId = 'com.igg'
+afterEvaluate {
+    publishing {
+        publications {
+            // Creates a Maven publication called "release".
+            release(MavenPublication) {
+                // Applies the component for the release build variant.
 
-        //artifactId，自行定义，项目名或模块名
-        pom.artifactId = 'statistics.android'
+                // You can then customize attributes of the publication as shown below.
+                groupId = 'com.igg'
+                artifactId =  'statistics.android'
+                version = '1.0.2'
 
-        //插件版本号
-        pom.version = '1.0.2'
+
+            }
+        }
     }
 }
+
+//uploadArchives {
+//    repositories.mavenDeployer {
+//        //本地仓库路径，以放到项目根目录下的 repo 的文件夹为例
+//        repository(url: uri('../repo'))
+//
+//        //groupId ，自行定义，组织名或公司名
+//        pom.groupId = 'com.igg'
+//
+//        //artifactId，自行定义，项目名或模块名
+//        pom.artifactId = 'statistics.android'
+//
+//        //插件版本号
+//        pom.version = '1.0.2'
+//    }
+//}

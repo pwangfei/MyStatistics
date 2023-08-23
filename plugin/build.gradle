@@ -26,15 +26,22 @@ repositories {
 
 afterEvaluate {
     publishing {
+
+        repositories { RepositoryHandler handler->
+            handler.maven {
+                url "${rootDir}/repo"
+            }
+        }
+
+
         publications {
             // Creates a Maven publication called "release".
             release(MavenPublication) {
                 // Applies the component for the release build variant.
-
                 // You can then customize attributes of the publication as shown below.
                 groupId = 'com.igg'
                 artifactId =  'statistics.android'
-                version = '1.0.2'
+                version = '1.0.3'
 
 
             }
